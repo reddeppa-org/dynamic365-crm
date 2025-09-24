@@ -10,7 +10,7 @@ jobs:
 
       - run: pac solution pack --folder "src/unpacked-solution" --zipFile "build/dynamic365.zip"
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: crm-solution
           path: build/dynamic365.zip
