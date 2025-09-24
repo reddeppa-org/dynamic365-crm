@@ -6,9 +6,20 @@ jobs:
   build:
     runs-on: windows-latest #[self-hosted, crm]
     steps:
+      
       - uses: actions/checkout@v3
 
-      - run: pac solution pack --folder "src/unpacked-solution" --zipFile "build/dynamic365.zip"
+      - name: Install Power Platform CLI
+        run: |
+          Invoke-WebRequest -Uri https://aka.ms/powerplatform-cli-download -OutFile pac.msi
+          Start-Process msiexec.exe -Wait -ArgumentList '/I pac.msi /quiet'
+
+      - name: Verify pac installation
+        run: pac --version
+
+      - name: Install Power Platform CLI
+        run: |
+          pac solution pack --folder "src/unpacked-solution" --zipFile "build/dynamic365.zip"
 
       - uses: actions/upload-artifact@v4
         with:
