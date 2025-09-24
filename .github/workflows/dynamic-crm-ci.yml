@@ -13,4 +13,4 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: crm-solution
-          path: build/YourSolution.zip
+          path: build/dynamic365.zip
