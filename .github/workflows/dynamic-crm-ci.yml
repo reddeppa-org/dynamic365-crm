@@ -11,13 +11,19 @@ jobs:
 
       - name: Install Power Platform CLI
         run: |
-          Invoke-WebRequest -Uri https://aka.ms/powerplatform-cli-download -OutFile pac.msi
-          Start-Process msiexec.exe -Wait -ArgumentList '/I pac.msi /quiet'
+          $installer = "$env:TEMP\pac.msi"
+          Invoke-WebRequest -Uri "https://aka.ms/powerplatform-cli-download" -OutFile $installer
+          Start-Process msiexec.exe -Wait -ArgumentList "/i $installer /quiet"
+          
+          # Add CLI path to environment
+          $cliPath = "C:\Program Files\Microsoft Power Platform Tools"
+          $env:PATH += ";$cliPath"
+          [Environment]::SetEnvironmentVariable("PATH", $env:PATH, [EnvironmentVariableTarget]::Process)
 
-      - name: Verify pac installation
-        run: pac --version
+          # Verify installation
+          pac --version
 
-      - name: Install Power Platform CLI
+      - name: Packing CRM Solution
         run: |
           pac solution pack --folder "src/unpacked-solution" --zipFile "build/dynamic365.zip"
 
