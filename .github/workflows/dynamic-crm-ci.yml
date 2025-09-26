@@ -22,14 +22,21 @@ jobs:
       # - name: Install Power Platform Tools
       #   uses: microsoft/powerplatform-actions/actions-install@v1      
       
-      - name: Install PAC and Pack Solution
+      - name: Download and run Power Platform CLI
+        shell: pwsh
         run: |
-          # Install the latest version of the Power Platform CLI tool
-          dotnet tool install --global Microsoft.PowerApps.CLI.Tool
-          
-          # Add .NET tools to the PATH
-          #echo "$HOME/.dotnet/tools" >> $GITHUB_PATH   
-        shell: C:\Program Files\PowerShell\7\pwsh.EXE
+          $zipUrl = "https://aka.ms/powerplatform-cli-download"
+          $downloadPath = "$env:TEMP\pac.zip"
+          $extractPath = "$env:TEMP\pac-cli"
+
+          Invoke-WebRequest -Uri $zipUrl -OutFile $downloadPath
+          Expand-Archive -Path $downloadPath -DestinationPath $extractPath -Force
+
+          # Add CLI to PATH
+          echo "$extractPath" | Out-File -Append -Encoding utf8 $env:GITHUB_PATH
+
+          # Run pac command
+          & "$extractPath\pac.exe" solution pack --folder "src/unpacked-solution" --zipFile "build/dynamic365.zip"
 
       - name: Packing CRM Solution
         run: |
