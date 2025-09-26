@@ -25,32 +25,21 @@ jobs:
       - name: Download and run Power Platform CLI
         shell: pwsh
         run: |
-           # Load required .NET assembly
-            Add-Type -AssemblyName System.IO.Compression.FileSystem
-
-            # Define paths
-            $zipUrl = "https://aka.ms/powerplatform-cli-download"
+           # Define paths
             $downloadPath = "$env:TEMP\pac.zip"
             $extractPath = "$env:TEMP\pac-cli"
 
-            # Clean up any previous downloads
-            Remove-Item -Path $downloadPath -ErrorAction SilentlyContinue
-            Remove-Item -Path $extractPath -Recurse -Force -ErrorAction SilentlyContinue
+            # Use curl to follow redirects and download the actual ZIP
+            curl -L "https://aka.ms/powerplatform-cli-download" -o $downloadPath
 
-            # Download ZIP with basic parsing
-            Invoke-WebRequest -Uri $zipUrl -OutFile $downloadPath -UseBasicParsing
-
-            # Validate ZIP file size
-            if ((Get-Item $downloadPath).Length -lt 10000) {
-                throw "Downloaded file is too small — likely not a valid ZIP. Check the URL or network."
-            }
+            # Load required .NET assembly
+            Add-Type -AssemblyName System.IO.Compression.FileSystem
 
             # Extract ZIP
             [System.IO.Compression.ZipFile]::ExtractToDirectory($downloadPath, $extractPath)
 
             # Run pac
             & "$extractPath\pac.exe" solution pack --folder "src/unpacked-solution" --zipFile "build/dynamic365.zip"
-              
       - name: Packing CRM Solution
         run: |
           pac solution pack --folder "customer-service" --zipFile "customer-service.zip"
