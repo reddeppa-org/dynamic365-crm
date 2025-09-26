@@ -29,8 +29,22 @@ jobs:
             $downloadPath = "$env:TEMP\pac.zip"
             $extractPath = "$env:TEMP\pac-cli"
 
-            # Use curl to follow redirects and download the actual ZIP
-            curl -L "https://aka.ms/powerplatform-cli-download" -o $downloadPath
+            # Clean up previous attempts
+            Remove-Item -Path $downloadPath -ErrorAction SilentlyContinue
+            Remove-Item -Path $extractPath -Recurse -Force -ErrorAction SilentlyContinue
+
+            # Download ZIP with headers and basic parsing
+            $headers = @{ "User-Agent" = "Mozilla/5.0" }
+            Invoke-WebRequest -Uri "https://aka.ms/powerplatform-cli-download" `
+              -OutFile $downloadPath `
+              -UseBasicParsing `
+              -Headers $headers
+
+            # Validate ZIP magic number
+            $magic = Get-Content $downloadPath -TotalCount 1 -Encoding Byte
+            if ($magic[0] -ne 0x50 -or $magic[1] -ne 0x4B) {
+                throw "Downloaded file is not a valid ZIP archive. Check redirect or network."
+            }
 
             # Load required .NET assembly
             Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -40,6 +54,7 @@ jobs:
 
             # Run pac
             & "$extractPath\pac.exe" solution pack --folder "src/unpacked-solution" --zipFile "build/dynamic365.zip"
+
       - name: Packing CRM Solution
         run: |
           pac solution pack --folder "customer-service" --zipFile "customer-service.zip"
