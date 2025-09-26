@@ -25,23 +25,32 @@ jobs:
       - name: Download and run Power Platform CLI
         shell: pwsh
         run: |
-          # Load required .NET assembly manually
-          Add-Type -AssemblyName System.IO.Compression.FileSystem
+           # Load required .NET assembly
+            Add-Type -AssemblyName System.IO.Compression.FileSystem
 
-          # Define paths
-          $zipUrl = "https://aka.ms/powerplatform-cli-download"
-          $downloadPath = "$env:TEMP\pac.zip"
-          $extractPath = "$env:TEMP\pac-cli"
+            # Define paths
+            $zipUrl = "https://aka.ms/powerplatform-cli-download"
+            $downloadPath = "$env:TEMP\pac.zip"
+            $extractPath = "$env:TEMP\pac-cli"
 
-          # Download the ZIP
-          Invoke-WebRequest -Uri $zipUrl -OutFile $downloadPath
+            # Clean up any previous downloads
+            Remove-Item -Path $downloadPath -ErrorAction SilentlyContinue
+            Remove-Item -Path $extractPath -Recurse -Force -ErrorAction SilentlyContinue
 
-          # Extract using .NET API (works in PowerShell 7)
-          [System.IO.Compression.ZipFile]::ExtractToDirectory($downloadPath, $extractPath)
+            # Download ZIP with basic parsing
+            Invoke-WebRequest -Uri $zipUrl -OutFile $downloadPath -UseBasicParsing
 
-          # Run pac from extracted binaries
-          & "$extractPath\pac.exe" solution pack --folder "src/unpacked-solution" --zipFile "build/dynamic365.zip"
+            # Validate ZIP file size
+            if ((Get-Item $downloadPath).Length -lt 10000) {
+                throw "Downloaded file is too small — likely not a valid ZIP. Check the URL or network."
+            }
 
+            # Extract ZIP
+            [System.IO.Compression.ZipFile]::ExtractToDirectory($downloadPath, $extractPath)
+
+            # Run pac
+            & "$extractPath\pac.exe" solution pack --folder "src/unpacked-solution" --zipFile "build/dynamic365.zip"
+              
       - name: Packing CRM Solution
         run: |
           pac solution pack --folder "customer-service" --zipFile "customer-service.zip"
