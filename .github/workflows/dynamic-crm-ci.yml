@@ -20,7 +20,7 @@ jobs:
 
       - name: Packing CRM Solution
         run: |
-          pac solution pack --folder "customer-service" --zipFile "customer-service.zip"        
+          pac solution pack --folder "." --zipFile "customer-service.zip"        
       
       - uses: actions/upload-artifact@v4
         with:
