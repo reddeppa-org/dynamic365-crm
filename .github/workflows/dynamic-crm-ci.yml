@@ -25,17 +25,21 @@ jobs:
       - name: Download and run Power Platform CLI
         shell: pwsh
         run: |
+          # Load required .NET assembly manually
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+
+          # Define paths
           $zipUrl = "https://aka.ms/powerplatform-cli-download"
           $downloadPath = "$env:TEMP\pac.zip"
           $extractPath = "$env:TEMP\pac-cli"
 
+          # Download the ZIP
           Invoke-WebRequest -Uri $zipUrl -OutFile $downloadPath
-          Expand-Archive -Path $downloadPath -DestinationPath $extractPath -Force
 
-          # Add CLI to PATH
-          echo "$extractPath" | Out-File -Append -Encoding utf8 $env:GITHUB_PATH
+          # Extract using .NET API (works in PowerShell 7)
+          [System.IO.Compression.ZipFile]::ExtractToDirectory($downloadPath, $extractPath)
 
-          # Run pac command
+          # Run pac from extracted binaries
           & "$extractPath\pac.exe" solution pack --folder "src/unpacked-solution" --zipFile "build/dynamic365.zip"
 
       - name: Packing CRM Solution
