@@ -11,15 +11,8 @@ jobs:
 
       - name: Install Power Platform CLI
         run: |    
-          Invoke-WebRequest -Uri https://aka.ms/powerplatform-cli-download -OutFile pac.msi
-          Start-Process .\pac.msi 
-          $env:PATH += ";$env:USERPROFILE\AppData\Local\Microsoft\PowerAppsCLI"     
-          # # Download and install the Power Platform CLI MSI installer
-          # Invoke-WebRequest -Uri "https://aka.ms/PowerAppsCLI" -OutFile "pacli.msi"
-          # Start-Process -FilePath "msiexec.exe" -ArgumentList "/i pacli.msi /qn" -Wait
-          # # Add the PACLI to the PATH (if not already added by the installer)
-          # $env:Path += ";C:\Program Files\Microsoft PowerApps CLI"
-          # Write-Host "Power Platform CLI installed and added to PATH."
+          Invoke-WebRequest "https://aka.ms/powerplatform-cli-download" -OutFile "$env:TEMP\pac.zip"; Expand-Archive "$env:TEMP\pac.zip" -DestinationPath "$env:TEMP\pac-cli" -Force
+          #& "$env:TEMP\pac-cli\pac.exe" solution pack --folder "src/unpacked-solution" --zipFile "build/dynamic365.zip"
       
       - name: Install Power Platform Tools
         uses: microsoft/powerplatform-actions/actions-install@v1
@@ -31,7 +24,7 @@ jobs:
             
       - name: Packing CRM Solution
         run: |
-          pac solution pack --folder "src/unpacked-solution" --zipFile "build/dynamic365.zip"
+          & "$env:TEMP\pac-cli\pac.exe" solution pack --folder "src/unpacked-solution" --zipFile "build/dynamic365.zip"
 
       - uses: actions/upload-artifact@v4
         with:
