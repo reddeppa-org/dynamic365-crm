@@ -29,12 +29,16 @@ jobs:
 
       - name: Install PAC and Pack Solution
         run: |
-          # Manual installation of the .NET tool and adding it to PATH for this step
-          dotnet tool install --global Microsoft.PowerApps.CLI --version 1.25.7
+          # Install the latest version of the Power Platform CLI tool
+          dotnet tool install --global Microsoft.PowerApps.CLI.Tool
+          
+          # Add .NET tools to the PATH
           echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
-
+          
           # Now, run your pac command
           pac solution pack --folder "src/unpacked-solution" --zipFile "build/dynamic365.zip"
+
+        shell: C:\Program Files\PowerShell\7\pwsh.EXE
 
             
       - uses: actions/upload-artifact@v4
