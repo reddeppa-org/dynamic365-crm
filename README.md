@@ -1,22 +1,42 @@
-# Introduction
+# Power Platform Samples
 
-This repo provides samples for apps, solutions, and related services for Dynamics 365. For Dynamics 365 docs, visit <https://docs.microsoft.com/dynamics365>.
+This repository contains community samples that demonstrate different usage patterns for the Microsoft Power Platform.
 
-## Related samples repos
+## Sample migration
 
-- AL language code samples for Dynamics 365 Business Central: <https://github.com/Microsoft/AL>.
-- Power Apps and Dataverse samples: <https://github.com/Microsoft/PowerApps-Samples>.
+We are currently in the process of moving all the per product samples into solutions, so that they can be used more easily. The following repositories will still exist for the time being but will be removed later on when all samples are migrated to this repository.
 
-## Contributing
+- [Power Fx Samples](https://github.com/pnp/powerfx-samples)
+- [Power Apps Samples](https://github.com/pnp/powerapps-samples)
+- [Power Automate Samples](https://github.com/pnp/powerautomate-samples)
+- [Power Virtual Agents Samples](https://github.com/pnp/powerva-samples)
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.microsoft.com.
+> You're welcome to bring samples from the other repositories! The more people help, the faster we'll move all the samples here.
 
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+## Have issues or questions?
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments . 
+Please use following logic on submitting your questions or issues to right location to ensure that they are noticed and addressed as soon as possible.
+
+## Additional resources
+
+- [Power Platform Community](https://powerusers.microsoft.com/)
+
+## Using the samples
+
+For more info about how to use the Power Platform Samples, please look for the Prerequisites & the Minimal Path to Awesome sections in the readme.md file in every sample directory.
+
+## Authors
+
+This repository's contributors are all community members who volunteered their time to share code samples. Work is done as an open source community project, which each sample contained in their own solution.
+
+## Contributions
+
+These samples are direct from the feature teams, [PnP team](http://aka.ms/m365pnp) or shared by the community. We welcome your input on issues and suggestions for new samples. We do also welcome community contributions. If you have any questions, just let us know.
+
+Please have a look on our [Contribution Guidance](./CONTRIBUTING.md) before you submit your pull requests, so that we can get your contribution processed as fast as possible.
+
+## Code of Conduct
+
+This repository has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+> Sharing is caring ❤!

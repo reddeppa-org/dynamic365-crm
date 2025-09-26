@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Power Apps Community
+    url: https://powerusers.microsoft.com/t5/Get-Help-with-Power-Apps/ct-p/PA_General
+    about: Get help from our passionate Power Apps community members.
+  - name: Power Automate Community
+    url: https://powerusers.microsoft.com/t5/Get-Help-with-Power-Automate/ct-p/FL_GeneralDiscussions
+    about: Ask the community members from the Power Automate community.
+  - name: Power Pages Community
+    url: https://powerusers.microsoft.com/t5/Get-Help-with-Power-Pages/ct-p/mpp_gethelp
+    about: It may be the newest family member, but the Power Pages community is one of the most passionate community there is.
+  - name: Power Virtual Agents Community
+    url: https://powerusers.microsoft.com/t5/Get-Help-with-Power-Virtual/ct-p/pva_gethelp
+    about: Ask questions about Power Virtual Agents in the community.
