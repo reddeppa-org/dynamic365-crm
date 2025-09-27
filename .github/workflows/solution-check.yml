@@ -40,5 +40,5 @@ jobs:
       
       - uses: actions/upload-artifact@v4
         with:
-          name: crm-solution
-          path: build/a-puzzle-a-day.zip
+          name: ${{ github.event.inputs.sample_name }}
+          path: samples/${{ github.event.inputs.sample_name }}/solution/${{ github.event.inputs.sample_name }}.zip
