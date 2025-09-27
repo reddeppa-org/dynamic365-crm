@@ -25,7 +25,7 @@ jobs:
 
       
       - id: pac-unpack-pack
-        name: pac-solution-pack
+        name: pac-unpack-pack
         shell: pwsh
         run: |
            pac solution unpack --zipfile samples/${{ github.event.inputs.sample_name }}/solution/${{ github.event.inputs.sample_name }}.zip --folder samples/${{ github.event.inputs.sample_name }}/sourcecode --packagetype Unmanaged --processCanvasApps
