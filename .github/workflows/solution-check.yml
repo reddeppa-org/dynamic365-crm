@@ -26,14 +26,16 @@ jobs:
       - id: pac-solution-pack
         name: pac-solution-pack
         shell: pwsh
-        run: pac solution pack --zipfile samples/${{ github.event.inputs.sample_name }}/solution/${{ github.event.inputs.sample_name }}.zip --folder samples/${{ github.event.inputs.sample_name }}/sourcecode --packagetype Unmanaged --processCanvasApps
+        run: |
+           pac solution pack --folder "samples\a-puzzle-a-day" --zipFile "build/a-puzzle-a-day.zip" #--zipfile samples/${{ github.event.inputs.sample_name }}/solution/${{ github.event.inputs.sample_name }}.zip --folder samples/${{ github.event.inputs.sample_name }}/sourcecode --packagetype Unmanaged --processCanvasApps
 
       - id: pac-solution-check
         name: pac-solution-check
         shell: pwsh
-        run: pac solution check --path samples/${{ github.event.inputs.sample_name }}/solution/${{ github.event.inputs.sample_name }}.zip --outputDirectory samples/${{ github.event.inputs.sample_name }}/solution/ --geo UnitedStates
+        run: |
+          pac solution check --path samples/${{ github.event.inputs.sample_name }}/solution/${{ github.event.inputs.sample_name }}.zip --outputDirectory samples/${{ github.event.inputs.sample_name }}/solution/ --geo UnitedStates
 
       - uses: actions/upload-artifact@v4
         with:
           name: crm-solution
-          path: build/dynamic365.zip
+          path: build/a-puzzle-a-day.zip
