@@ -24,11 +24,11 @@ jobs:
           dotnet tool install --global Microsoft.PowerApps.CLI.Tool
 
       
-      # - id: pac-unpack-pack
-      #   name: pac-solution-pack
-      #   shell: pwsh
-      #   run: |
-      #      pac solution unpack --zipfile samples/${{ github.event.inputs.sample_name }}/solution/${{ github.event.inputs.sample_name }}.zip --folder samples/${{ github.event.inputs.sample_name }}/sourcecode --packagetype Unmanaged --processCanvasApps
+      - id: pac-unpack-pack
+        name: pac-solution-pack
+        shell: pwsh
+        run: |
+           pac solution unpack --zipfile samples/${{ github.event.inputs.sample_name }}/solution/${{ github.event.inputs.sample_name }}.zip --folder samples/${{ github.event.inputs.sample_name }}/sourcecode --packagetype Unmanaged --processCanvasApps
 
       
       - id: pac-solution-pack
